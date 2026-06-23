@@ -4,7 +4,7 @@ FROM php:8.2-apache
 # Copiamos todos los archivos del proyecto a la carpeta raíz de Apache
 COPY . /var/www/html/
 
-# Le damos permisos correctos a la carpeta para que Apache pueda leer los archivos
+# Le damos permisos correctos a la carpeta para que Apache pueda leer los archivos de la pagina
 RUN chown -R www-data:www-data /var/www/html
 
 # Exponemos el puerto 80
