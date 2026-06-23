@@ -241,7 +241,7 @@
 
     <h3> Método de entrega</h3>
 
-    <button class="delivery-btn" onclick="window.open('https://wa.me/595984122160?text=En%20que%20podemos%20ayudarte', '_blank')">
+    <button class="delivery-btn" onclick="window.open('https://wa.me/595984122160?text=Quiero%20este%20pedido%20porfavor', '_blank')">
       Delivery
     </button>
 
