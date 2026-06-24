@@ -1,7 +1,7 @@
 @echo off
 :: ============================================================================
 :: Script de Automatizacion de Despliegue para Pizza Roga
-:: Automatiza: Git (Add, Commit, Push) + Docker (Stop, Rm, Build, Run)
+:: Automatiza: Git (Add, Commit con Mensaje Manual, Push Forzado) + Docker
 :: ============================================================================
 
 CLS
@@ -10,16 +10,28 @@ echo           INICIANDO AUTOMATIZACION DE DESPLIEGUE - PIZZA ROGA
 echo ============================================================================
 echo.
 
-:: 1. GIT AUTOMATICO
+:: 1. GIT AUTOMATICO (CON MENSAJE MANUAL)
 echo [1/4] Agregando archivos a Git...
 git add .
 
-echo [2/4] Generando Commit automatico...
-git commit -m "Actualizacion automatica del sitio web - Pizza Roga"
+echo.
+:: Aquí te pide el mensaje manualmente en la consola
+set /p commit_msg="Introduce la descripcion para el Commit (ej. Correccion de imagenes): "
 
-echo [3/4] Subiendo cambios a GitHub...
+:: Si presionas Enter sin escribir nada, le asigna un mensaje por defecto para que no falle
+if "%commit_msg%"=="" (
+    set commit_msg="Actualizacion automatica del sitio web - Pizza Roga"
+)
+
+echo.
+echo [2/4] Generando Commit con tu descripcion...
+git commit -m "%commit_msg%"
+
+echo.
+echo [3/4] Subiendo cambios a GitHub (Forzado)...
 echo (Si se congela aqui, presiona Ctrl+C y verifica tu Token)
-git push origin main
+:: El --force soluciona el error [rejected] que te salio antes
+git push origin main --force
 
 :: 2. DOCKER AUTOMATICO
 echo.
