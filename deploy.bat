@@ -1,6 +1,7 @@
 @echo off
 :: ============================================================================
-:: Script de Automatizacion de Despliegue para Pizza Roga (Optimizado)
+:: Script de Automatizacion de Despliegue para Pizza Roga
+:: Automatiza: Git (Add, Commit, Push) + Docker (Stop, Rm, Build, Run)
 :: ============================================================================
 
 CLS
@@ -9,75 +10,33 @@ echo           INICIANDO AUTOMATIZACION DE DESPLIEGUE - PIZZA ROGA
 echo ============================================================================
 echo.
 
-if not exist "Dockerfile" (
-    echo [ERROR] No se encontro el archivo 'Dockerfile' en este directorio.
-    goto :error
-)
-
-echo [GIT] Preparando cambios en el repositorio local...
+:: 1. GIT AUTOMATICO
+echo [1/4] Agregando archivos a Git...
 git add .
 
-echo.
-set /p commit_msg="Introduce la descripcion para el Commit (ej. Correccion de imagenes): "
-if "%commit_msg%"=="" (
-    set commit_msg="Actualizacion automatica del sitio web - Pizza Roga"
-)
+echo [2/4] Generando Commit automatico...
+git commit -m "Actualizacion automatica del sitio web - Pizza Roga"
 
-echo.
-echo [GIT] Guardando confirmacion local (Commit)...
-git commit -m "%commit_msg%"
-
-echo.
-echo [GIT] Subiendo cambios al repositorio remoto...
-:: Desactivar temporalmente el prompt interactivo de windows para que pida los datos en consola de forma obligatoria
-set GIT_TERMINAL_PROMPT=1
+echo [3/4] Subiendo cambios a GitHub...
+echo (Si se congela aqui, presiona Ctrl+C y verifica tu Token)
 git push origin main
 
-if %ERRORLEVEL% NEQ 0 (
-    echo.
-    echo [ADVERTENCIA] Error en el push. El script continuara con el despliegue local...
-    echo.
-    pause
-)
-
+:: 2. DOCKER AUTOMATICO
 echo.
-echo ============================================================================
-echo           ACTUALIZANDO CONTENEDOR DOCKER LOCAL
-echo ============================================================================
-echo.
-
-echo [DOCKER] Deteniendo contenedor anterior si esta activo...
+echo [4/4] Actualizando Contenedor Docker Local...
 docker stop mi-contenedor-web >nul 2>&1
 docker rm mi-contenedor-web >nul 2>&1
 
-echo [DOCKER] Construyendo la nueva imagen de Pizza Roga...
+echo [DOCKER] Recompilando imagen...
 docker build -t pizzaroga-web .
-if %ERRORLEVEL% NEQ 0 (
-    echo [ERROR] Fallo la compilacion de la imagen en Docker.
-    goto :error
-)
 
-echo.
-echo [DOCKER] Encendiendo el nuevo contenedor en el puerto 8080...
+echo [DOCKER] Iniciando contenedor en puerto 8080...
 docker run -d -p 8080:80 --name mi-contenedor-web pizzaroga-web
-if %ERRORLEVEL% NEQ 0 (
-    echo [ERROR] No se pudo encender el contenedor.
-    goto :error
-)
 
 echo.
 echo ============================================================================
-echo ¡PROCESO COMPLETADO CON EXITO!
+echo ¡DESPLIEGUE FINALIZADO EXITOSAMENTE!
 echo ============================================================================
-echo.
-echo  Puedes acceder desde tu PC en: http://localhost:8080
-echo.
-pause
-exit /b 0
-
-:error
-echo.
-echo [PROCESO FALLIDO] Ocurrio un error critico.
+echo Puedes entrar a: http://localhost:8080
 echo.
 pause
-exit /b 1
