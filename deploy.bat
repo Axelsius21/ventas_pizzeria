@@ -6,7 +6,7 @@
 
 CLS
 echo ============================================================================
-echo           INICIANDO AUTOMATIZACION DE DESPLIEGUE - PIZZA ROGA
+echo           INICIANDO LA AUTOMATIZACION DE DESPLIEGUE - PIZZA ROGA
 echo ============================================================================
 echo.
 
