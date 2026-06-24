@@ -1,12 +1,11 @@
 @echo off
 :: ============================================================================
-:: Script de Automatizacion de Despliegue para Pizza Roga
-:: Automatiza: Git (Add, Commit, Push) + Docker (Stop, Rm, Build, Run)
+:: Script de Automatizacion de Despliegue para Pizza Roga (Optimizado)
 :: ============================================================================
 
 CLS
 echo ============================================================================
-echo           INICIANDO LA AUTOMATIZACION DE DESPLIEGUE - PIZZA ROGA
+echo           INICIANDO AUTOMATIZACION DE DESPLIEGUE - PIZZA ROGA
 echo ============================================================================
 echo.
 
@@ -29,8 +28,11 @@ echo [GIT] Guardando confirmacion local (Commit)...
 git commit -m "%commit_msg%"
 
 echo.
-echo [GIT] Subiendo cambios al repositorio remoto en GitHub (Push)...
+echo [GIT] Subiendo cambios al repositorio remoto...
+:: Desactivar temporalmente el prompt interactivo de windows para que pida los datos en consola de forma obligatoria
+set GIT_TERMINAL_PROMPT=1
 git push origin main
+
 if %ERRORLEVEL% NEQ 0 (
     echo.
     echo [ADVERTENCIA] Error en el push. El script continuara con el despliegue local...
