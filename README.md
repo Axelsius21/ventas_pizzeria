@@ -15,9 +15,15 @@ Sitio web dinámico desarrollado para la pizzería artesanal **Pizza Róga** bas
 
 ## Capturas de Docker
 * **COMANDO PARA CONSTRUIR EL CONTENEDOR**
+
+* **docker build -t pizzaroga-web .**
+
 ![COMANDO PARA CONSTRUIR EL CONTENEDOR](capturas/image.png)
 
 * **COMANDO PARA EJECUTAR EL CONTENEDOR**
+
+* **docker run -d -p 8080:80 --name mi-contenedor-web pizzaroga-web**
+
 ![COMANDO PARA EJECUTAR EL CONTENEDOR](capturas/image-1.png)
 
 ## Capturas de funcionamiento
